@@ -1,0 +1,155 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  color: #444;
+}
+
+/* Card Styles */
+.card {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: #fdfdfd;
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.card-head span {
+  font-weight: bold;
+}
+
+.card-head button {
+  background: #ff4d4d;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.card-head button:hover {
+  background: #e60000;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+label {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+button {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+button.primary {
+  background: #28a745;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* Error and Result Styles */
+.error {
+  color: #ff4d4d;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.invalid {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #ff4d4d;
+  border-radius: 4px;
+  background: #ffe6e6;
+}
+
+.invalid strong {
+  color: #e60000;
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+table th, table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+table th {
+  background: #f4f4f4;
+  font-weight: bold;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.8rem;
+}
+
+.badge.high {
+  background: #dc3545;
+}
+
+.badge.medium {
+  background: #ffc107;
+}
+
+.badge.low {
+  background: #28a745;
+}
