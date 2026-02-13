@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from .models import Task
 from .serializers import TaskInputSerializer, TaskOutputSerializer
 from .services import calculate_priority
 
@@ -61,13 +62,21 @@ class TaskPrioritizationView(APIView):
         prioritized = []
         for task_data in valid_tasks:
             score, category = calculate_priority(task_data)
-            prioritized.append(
-                {
-                    **task_data,
-                    "priority_score": score,
+
+            # Persist to DB -- update if task_id exists, create if not
+            task_obj, _ = Task.objects.update_or_create(
+                task_id=task_data["task_id"],
+                defaults={
+                    "title":             task_data["title"],
+                    "deadline_days":     task_data["deadline_days"],
+                    "estimated_hours":   task_data["estimated_hours"],
+                    "importance":        task_data["importance"],
+                    "priority_score":    score,
                     "priority_category": category,
-                }
+                },
             )
+
+            prioritized.append(TaskOutputSerializer(task_obj).data)
 
         prioritized.sort(key=lambda t: t["priority_score"], reverse=True)
 
@@ -77,6 +86,20 @@ class TaskPrioritizationView(APIView):
                 "prioritized_count": len(prioritized),
                 "invalid": invalid_tasks,
                 "invalid_count": len(invalid_tasks),
+            },
+            status=status.HTTP_200_OK,
+        )
+
+
+class TaskListView(APIView):
+
+    def get(self, request):
+        tasks = Task.objects.all()
+        serializer = TaskOutputSerializer(tasks, many=True)
+        return Response(
+            {
+                "count": tasks.count(),
+                "tasks": serializer.data,
             },
             status=status.HTTP_200_OK,
         )
