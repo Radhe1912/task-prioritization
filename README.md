@@ -230,14 +230,3 @@ npm run dev
 ```
 
 UI available at `http://localhost:5173`
-
-### Quick Test (curl)
-
-```bash
-curl -X POST http://127.0.0.1:8000/tasks/prioritize/ \
-  -H "Content-Type: application/json" \
-  -d '[
-    {"task_id":"1","title":"Fix bug","deadline_days":1,"estimated_hours":3,"importance":10},
-    {"task_id":"2","title":"Update docs","deadline_days":14,"estimated_hours":2,"importance":4}
-  ]'
-```

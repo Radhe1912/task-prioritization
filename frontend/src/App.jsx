@@ -4,12 +4,10 @@ import "./App.css";
 const API_BASE = "http://127.0.0.1:8000";
 
 const emptyTask = () => ({
-  task_id: String(Date.now()),
   title: "", deadline_days: "", estimated_hours: "", importance: "",
 });
 
 const toPayload = (t) => ({
-  task_id: t.task_id,
   title: t.title,
   deadline_days: t.deadline_days === "" ? undefined : Number(t.deadline_days),
   estimated_hours: t.estimated_hours === "" ? undefined : Number(t.estimated_hours),
