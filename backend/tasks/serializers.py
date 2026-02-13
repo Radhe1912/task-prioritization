@@ -5,7 +5,6 @@ from .models import Task
 
 class TaskInputSerializer(serializers.Serializer):
 
-    task_id = serializers.CharField(max_length=50)
     title = serializers.CharField(max_length=200)
     deadline_days = serializers.IntegerField(min_value=0)
     estimated_hours = serializers.FloatField(min_value=0.0)

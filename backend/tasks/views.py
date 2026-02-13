@@ -4,7 +4,9 @@ from rest_framework.views import APIView
 
 from .models import Task
 from .serializers import TaskInputSerializer, TaskOutputSerializer
-from .services import calculate_priority
+from .services import PriorityCalculator
+
+_calculator = PriorityCalculator()
 
 
 def _validate_task_list(raw_tasks: list) -> tuple[list, list]:
@@ -58,20 +60,18 @@ class TaskPrioritizationView(APIView):
             )
 
         valid_tasks, invalid_tasks = _validate_task_list(request.data)
-
         prioritized = []
-        for task_data in valid_tasks:
-            score, category = calculate_priority(task_data)
 
-            # Persist to DB -- update if task_id exists, create if not
+        for task_data in valid_tasks:
+            score, category = _calculator.calculate(task_data)
+
             task_obj, _ = Task.objects.update_or_create(
-                task_id=task_data["task_id"],
+                title=task_data["title"],
+                deadline_days=task_data["deadline_days"],
+                estimated_hours=task_data["estimated_hours"],
+                importance=task_data["importance"],
                 defaults={
-                    "title":             task_data["title"],
-                    "deadline_days":     task_data["deadline_days"],
-                    "estimated_hours":   task_data["estimated_hours"],
-                    "importance":        task_data["importance"],
-                    "priority_score":    score,
+                    "priority_score": score,
                     "priority_category": category,
                 },
             )
@@ -90,16 +90,12 @@ class TaskPrioritizationView(APIView):
             status=status.HTTP_200_OK,
         )
 
-
 class TaskListView(APIView):
 
     def get(self, request):
         tasks = Task.objects.all()
         serializer = TaskOutputSerializer(tasks, many=True)
         return Response(
-            {
-                "count": tasks.count(),
-                "tasks": serializer.data,
-            },
+            {"count": tasks.count(), "tasks": serializer.data},
             status=status.HTTP_200_OK,
         )
